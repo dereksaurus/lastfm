@@ -1,6 +1,6 @@
 # Lastfm
 
-TODO: Write a gem description
+Extreme minimal wrapper gem for Last.FM API.
 
 ## Installation
 
@@ -18,7 +18,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To authenticate:
+    api = Lastfm.connect <API_KEY>
+
+Method names are performed magically, use the following format:
+    get_<subject>_<method>
+
+Example:
+    api.get_artist_info "Oasis"
+    api.get_user_recent_tracks "shurai"
 
 ## Contributing
 
