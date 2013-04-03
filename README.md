@@ -19,13 +19,17 @@ Or install it yourself as:
 ## Usage
 
 To authenticate:
+
     api = Lastfm.connect <API_KEY>
 
 Method names are performed magically, use the following format:
+
     get_<subject>_<method>
 
 Example:
+
     api.get_artist_info "Oasis"
+    
     api.get_user_recent_tracks "shurai"
 
 ## Contributing
