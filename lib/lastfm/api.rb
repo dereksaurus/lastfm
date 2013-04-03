@@ -14,7 +14,7 @@ module Lastfm
     # Generates a lastfm method name
     def get_api_function(method_name)
       return "" if method_name.nil?
-      regex = /^get_(?<subject>\w+)_(?<method>\w+)$/
+      regex = /^get_(?<subject>[a-zA-Z]+)_(?<method>\w+)$/
       matched = method_name.to_s.match regex
 
       {
@@ -48,7 +48,6 @@ module Lastfm
     def method_missing(method, *args, &block)
       if method.to_s =~ /^get_(.+)$/
         method_hash = get_api_function method
-        p method_hash
         return send_request(method_hash[:subject], method_hash[:method], *args)
       else
         super

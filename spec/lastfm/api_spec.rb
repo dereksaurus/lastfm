@@ -13,7 +13,7 @@ describe 'Api' do
       end
 
       it "returns the string formatted as an api function supported by last.fm" do
-        @api.get_api_function('get_artist_info').should include(:subject => 'artist', :method => 'getinfo')
+        @api.get_api_function('get_artist_recent_tracks').should include(:subject => 'artist', :method => 'getrecenttracks')
       end
     end
   end
