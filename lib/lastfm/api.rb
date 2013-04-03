@@ -7,7 +7,7 @@ module Lastfm
   class Api
 
     # Set the api key
-    def intialize(api_key)
+    def initialize(api_key)
       @api_key = api_key
     end
 
@@ -17,16 +17,15 @@ module Lastfm
       regex = /^get_(?<subject>\w+)_(?<method>\w+)$/
       matched = method_name.to_s.match regex
 
-      [
+      {
         :subject => matched[:subject], 
         :method => "get#{matched[:method].gsub('_', '').downcase}"
-      ]
-
-      # {matched[:subject]}.get#{matched[:method].gsub('_', '').downcase}
+      }
     end
 
     # Sends a request to last.fm
-    def request(subject, method, *args)
+    # Will return a nokogiri XML object
+    def send_request(subject, method, *args)
 
       if args.first.is_a? Hash
         query = nil
@@ -37,11 +36,9 @@ module Lastfm
       end
 
       options = URI.escape(options.map{|element|"&#{element.first}=#{element.last}"}.join)
-      url_string = "?method=#{method}&api_key=#{@api_key}&format=json#{options}"
-      p url_string
+      url_string = "?method=#{subject}.#{method}&api_key=#{@api_key}#{options}"
 
-      document = Nokogiri.HTML(open(Lastfm::API_URL + url_string))
-      p document
+      return Nokogiri.XML(open(Lastfm::API_URL + url_string))
     end
 
     # Parse magic function for validity and execute it
@@ -49,10 +46,12 @@ module Lastfm
     # ie.
     #     get_artist_top_tracks --> artist.gettoptracks
     def method_missing(method, *args, &block)
-      self.class.instance_eval do
-        define_method method do |*args|
-          self.send request(generate_api_function(method), *args)
-        end
+      if method.to_s =~ /^get_(.+)$/
+        method_hash = get_api_function method
+        p method_hash
+        return send_request(method_hash[:subject], method_hash[:method], *args)
+      else
+        super
       end
     end
 

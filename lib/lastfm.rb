@@ -16,7 +16,6 @@ module Lastfm
   # Last.fm API access
   class << self
 
-
     # Initialize access point for Last.fm API
     def connect(key)
       Api.new key
