@@ -2,7 +2,6 @@ require 'lastfm/version'
 require 'lastfm/api'
 require 'open-uri'
 require 'json'
-require 'nokogiri'
 
 module Lastfm
 
