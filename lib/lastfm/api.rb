@@ -1,7 +1,7 @@
 # Helper class for accessing last.fm API
 require 'open-uri'
 require 'json'
-require 'nokogiri'
+require 'net/http'
 
 module Lastfm
   class Api
@@ -36,9 +36,9 @@ module Lastfm
       end
 
       options = URI.escape(options.map{|element|"&#{element.first}=#{element.last}"}.join)
-      url_string = "?method=#{subject}.#{method}&api_key=#{@api_key}#{options}"
+      url_string = "/?method=#{subject}.#{method}&api_key=#{@api_key}#{options}&format=json"
 
-      return Nokogiri.XML(open(Lastfm::API_URL + url_string))
+      Net::HTTP.get(URI.parse(Lastfm::API_URL + url_string))
     end
 
     # Parse magic function for validity and execute it

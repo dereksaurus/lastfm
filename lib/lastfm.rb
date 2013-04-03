@@ -7,7 +7,7 @@ require 'nokogiri'
 module Lastfm
 
   API_VERSION = 2.0
-  API_URL = "http://ws.audioscrobbler.com/#{API_VERSION}/"
+  API_URL = "http://ws.audioscrobbler.com/#{API_VERSION}"
 
   def self.version_string
     "LastFM API Wrapper Version #{Lastfm::VERSION}"
